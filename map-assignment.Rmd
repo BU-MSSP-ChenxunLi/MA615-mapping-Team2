@@ -78,6 +78,8 @@ states <- c("texas","oklahoma","kansas","louisiana","arkansas","missouri","iowa"
 
 #turn data from the maps package in to a data frame suitable for plotting with ggplot2
 map_states <- map_data("county", states)
+# To draw the border-by group 10
+map_states_border <- map_data("state",states)
 ```
 
 Next, we merge two data frames prepared which both contain region information. And now, we get the data which contains important information for mapping such as longitude and latitude.
@@ -109,7 +111,12 @@ Now, we can make maps now, use package 'ggplot' first.
 Floyd_rain_plot <- ggplot()+
   geom_polygon(Floyd_rain, mapping=aes(x=long, y=lat, group=group, fill=cut))+
   #connects the observations in the order in which they appear in the 'map_states'
-  geom_path(map_states, mapping=aes(x=long, y=lat, group=group),color="black")+
+  
+  geom_path(map_states, mapping=aes(x=long, y=lat, group=group),color="grey")+
+  
+  # Add the border to make it clear-by Group 10
+  geom_path(map_states_border, mapping=aes(x=long, y=lat, group=group),color="black")+
+  
   #draw the route
   geom_path(Floyd_route, mapping = aes(x=longitude, y=latitude),color="red")+
   #display discrete values on a map
@@ -135,6 +142,10 @@ Allison_rain_plot <- ggplot()+
   geom_polygon(Allison_rain, mapping=aes(x=long, y=lat, group=group, fill=cut))+
   #connects the observations in the order in which they appear in the 'map_states'
   geom_path(map_states, mapping=aes(x=long, y=lat, group=group),color="sky blue")+
+  
+  # Add border-by Group 10
+  geom_path(map_states_border, mapping=aes(x=long, y=lat, group=group),color="black")+
+  
   #draw the route
   geom_path(Allison_route, mapping = aes(x=longitude, y=latitude),color="red")+
   #change the range of x and y
